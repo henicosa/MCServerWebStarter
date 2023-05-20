@@ -1,0 +1,6 @@
+Flask==2.2.2
+Flask_BasicAuth==0.2.0
+requests==2.28.1
+schedule==1.1.0
+mcstatus
+

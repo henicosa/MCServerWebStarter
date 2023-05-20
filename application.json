@@ -1,0 +1,9 @@
+{
+    "application_name": "Webstartseite",
+    "application_type": "für Minecraft Server",
+    "application_type_short": "Server",
+    "application_introduction": "Mit diesem fetten Knopf könnt ihr den Minecraft Server starten. Bei Problemen wendet euch an den Admin.",
+    "application_repo_link": "https://github.com/henicosa",
+    "application_version": "1.0",
+    "application_image": "https://auth.robotanik-cloud.de/static/media/logo.png"
+}
