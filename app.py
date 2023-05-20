@@ -1,10 +1,7 @@
 from flask import Flask, Response, render_template, jsonify
 from flask_basicauth import BasicAuth
-from icalendar import Calendar, Event
 
-import schedule
 import time
-import subprocess
 
 import json
 
