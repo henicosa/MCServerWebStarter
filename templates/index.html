@@ -277,7 +277,7 @@
             } else if (data.status === 'not running')  {
               scriptStatus.innerHTML = "aktivieren";
             } else if (data.status === 'starting')  {
-              scriptStatus.innerHTML = "startet...";
+              scriptStatus.innerHTML = "startet ...";
             }
           })
         }
@@ -300,6 +300,9 @@
               button.style.backgroundColor = "red";
             } else if (data.status === 'not running')  {
               scriptStatus.innerHTML = "aktivieren";
+            } else if (data.status === 'starting')  {
+              scriptStatus.innerHTML = "startet ...";
+              button.style.backgroundColor = "yellow";
             }
           })
         }
