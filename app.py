@@ -18,6 +18,8 @@ server_start_webhook_url = secrets["server_start_webhook_url"]
 minecraft_server_address = secrets["minecraft_server_address"]
 server_address = minecraft_server_address.split(":")[0]
 
+last_time_executed = 0
+
 app.config['BASIC_AUTH_USERNAME'] = secrets['username']
 app.config['BASIC_AUTH_PASSWORD'] = secrets['password']
 
@@ -55,13 +57,16 @@ def secret_page():
 @app.route('/status')
 def status():
     global program_status
-    if is_computer_online(server_address):
-        if is_minecraft_server_running(minecraft_server_address):
-            program_status = "success"
-        else:
-            program_status = "starting"
+    if time.time() - last_time_executed < 10:
+        program_status = "starting"
     else:
-        program_status = "not running"
+        if is_computer_online(server_address):
+            if is_minecraft_server_running(minecraft_server_address):
+                program_status = "success"
+            else:
+                program_status = "starting"
+        else:
+            program_status = "not running"
     return jsonify(status=program_status)
 
 @app.route('/logs')
@@ -84,10 +89,11 @@ def activate():
     global program_status
     if program_status == "success":
         return jsonify(status='already running')
-    if start():
-        program_status = "starting"
-    else:
-        program_status = "failed"
+    if program_status != "starting":
+        if start():
+            program_status = "starting"
+        else:
+            program_status = "failed"
     return jsonify(status=program_status)
 
 
@@ -118,10 +124,13 @@ def is_minecraft_server_running(minecraft_server_address):
 
 import requests
 def start():
+    global last_time_executed
     try:
         # send post request and return true if successful
         r = requests.post(server_start_webhook_url)
         if r.status_code == 200:
+            print("Server accepted request")
+            last_time_executed = time.time()
             return True
         else:
             print("Error: " + str(r.status_code))
