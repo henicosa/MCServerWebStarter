@@ -109,8 +109,8 @@ def is_computer_online(ip_address, timeout=100):
 
 
 from mcstatus import JavaServer
-def is_minecraft_server_running():
-    server = JavaServer.lookup(settings['minecraft_server_ip'])
+def is_minecraft_server_running(minecraft_server_address):
+    server = JavaServer.lookup(minecraft_server_address)
     try:
         status = server.status()
         print("Server is running")
