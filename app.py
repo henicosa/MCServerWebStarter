@@ -14,7 +14,7 @@ app = Flask(__name__)
 secrets = read_json("secrets/secrets.json")
 settings = read_json("application.json")
 
-mac_address = secrets["server_mac_address"]
+server_start_webhook_url = secrets["server_start_webhook_url"]
 minecraft_server_address = secrets["minecraft_server_address"]
 server_address = minecraft_server_address.split(":")[0]
 
@@ -116,18 +116,19 @@ def is_minecraft_server_running(minecraft_server_address):
         print("Server is not running")
         return False
 
-from wakeonlan import send_magic_packet
+import requests
 def start():
-    for i in range(3):
-        try:
-            send_magic_packet(mac_address)
-            print("Sent magic packet to", mac_address)
+    try:
+        # send post request and return true if successful
+        r = requests.post(server_start_webhook_url)
+        if r.status_code == 200:
             return True
-        except Exception as e:
-            print("Failed to send magic packet to", mac_address)
-            print(e)
-            time.sleep(1)
-    return False
+        else:
+            print("Error: " + str(r.status_code))
+            return False
+    except Exception as e:
+        print("Error: " + str(e))
+        return False
 
 if __name__ == '__main__':
     app.run()
