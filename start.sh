@@ -1,2 +1,2 @@
 #!/bin/bash
-docker run -p 2112:5000 --name mcserverwebstarter mcserverwebstarter
+docker run -p 2112:8000 --name mcserverwebstarter mcserverwebstarter
